@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
-const router = require("./routes/index");
-const CreatorModel = require("./models/Creator.model");
+// const router = require("./routes/index");
+// const CreatorModel = require("./models/Creator.model");
 
 const app = express();
 app.use(
@@ -53,23 +53,23 @@ app.get("/", (req, res) => {
 //   }
 // });
 
-app.get("/all-creators", async (req, res) => {
-  try {
-    const creators = await CreatorModel.find();
-    res.status(200).json({
-      message: "Creators fetched successfully",
-      success: true,
-      error: false,
-      creators,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message || "Something went wrong",
-      success: false,
-      error: true,
-    });
-  }
-});
+// app.get("/all-creators", async (req, res) => {
+//   try {
+//     const creators = await CreatorModel.find();
+//     res.status(200).json({
+//       message: "Creators fetched successfully",
+//       success: true,
+//       error: false,
+//       creators,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error.message || "Something went wrong",
+//       success: false,
+//       error: true,
+//     });
+//   }
+// });
 
 // app.patch("/update-todo/:id", async (req, res) => {
 //   try {

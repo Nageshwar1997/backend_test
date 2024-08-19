@@ -3,8 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const router = require("./routes/index");
-const TodoModel = require("./models/createTodo.model");
-
+const CreatorModel = require("./models/Creator.model");
 
 const app = express();
 app.use(
@@ -21,7 +20,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   return res.send("Welcome to Home Page");
-})
+});
 
 app.post("/create-todo", async (req, res) => {
   try {
@@ -56,12 +55,12 @@ app.post("/create-todo", async (req, res) => {
 
 app.get("/all-creators", async (req, res) => {
   try {
-    const todos = await TodoModel.find();
+    const creators = await CreatorModel.find();
     res.status(200).json({
-      message: "Todos fetched successfully",
+      message: "Creators fetched successfully",
       success: true,
       error: false,
-      todos,
+      creators,
     });
   } catch (error) {
     res.status(500).json({

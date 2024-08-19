@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const creatorRouter = require("./routes/creatorsRoutes");
 const databaseConnection = require("./config/db");
+const PORT = process.env.PORT || 5000;
 
 const server = express();
 server.use(
@@ -21,9 +22,7 @@ server.use(express.json());
 server.get("/", (req, res) => {
   return res.send("Welcome to Home Page");
 });
-server.use("/api", creatorRouter);
-
-const PORT = process.env.PORT || 5000;
+server.use("/", creatorRouter);
 
 server.listen(PORT, async () => {
   try {

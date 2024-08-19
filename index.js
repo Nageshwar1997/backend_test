@@ -3,8 +3,6 @@ const cors = require("cors");
 // const cookieParser = require("cookie-parser"); // currently not installed
 require("dotenv").config();
 const databaseConnection = require("./config/db.config");
-const router = require("./routes/index");
-const CreatorModel = require("./models/Creator.model");
 // const getAllCreatorsController = require("./controllers/getAllCreators.controller");
 
 const server = express();
@@ -22,14 +20,14 @@ server.use(express.json());
 // server.use(cookieParser()); // currently not installed
 
 // server.use("/api", router);
-server.get("/all-creators", async (req, res) => {
+server.get("/all-todos", async (req, res) => {
   try {
-    const creators = await CreatorModel.find();
+    const todos = await TodoModel.find();
     res.status(200).json({
-      message: "Creators fetched successfully",
+      message: "Todos fetched successfully",
       success: true,
       error: false,
-      creators,
+      todos,
     });
   } catch (error) {
     res.status(500).json({
@@ -39,7 +37,6 @@ server.get("/all-creators", async (req, res) => {
     });
   }
 });
-
 
 const PORT = process.env.PORT || 5000;
 

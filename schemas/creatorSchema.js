@@ -1,11 +1,5 @@
 const mongoose = require("mongoose");
-// const socialMediaLinksSchema = new mongoose.Schema(
-//   {
-//     platform: { type: String, required: true },
-//     url: { type: String, required: true },
-//   },
-//   { _id: false } // Disable the _id field for this schema
-// );
+
 const creatorSchema = new mongoose.Schema(
   {
     bannerImageUrl: {

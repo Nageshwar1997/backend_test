@@ -3,6 +3,7 @@ const cors = require("cors");
 // const cookieParser = require("cookie-parser"); // currently not installed
 require("dotenv").config();
 const databaseConnection = require("./config/db.config");
+const TodoModel = require("./models/createTodo.model");
 // const getAllCreatorsController = require("./controllers/getAllCreators.controller");
 
 const server = express();

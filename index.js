@@ -19,6 +19,10 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  return res.send("Welcome to Home Page");
+})
+
 app.post("/create-todo", async (req, res) => {
   try {
     const { name, status } = req.body;
@@ -50,7 +54,7 @@ app.post("/create-todo", async (req, res) => {
   }
 });
 
-app.get("/all-todos", async (req, res) => {
+app.get("/all-creators", async (req, res) => {
   try {
     const todos = await TodoModel.find();
     res.status(200).json({

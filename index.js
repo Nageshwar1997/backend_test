@@ -253,7 +253,7 @@ app.get("/search", async (req, res) => {
   }
 });
 
-app.patch("/update_creator", async (req, res) => {
+app.patch("/update_creator/:id", async (req, res) => {
   try {
     const { id } = req.params;
 

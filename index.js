@@ -218,15 +218,22 @@ app.get("/search", async (req, res) => {
     }
 
     if (language) {
+      // query.languages = { $in: [language] };
       query.languages = { $elemMatch: { $regex: new RegExp(language, "i") } };
     }
 
     if (education) {
-      query.education = education;
+      // query.education = education;
+      if (education) {
+        query.education = { $regex: new RegExp(education, "i") };
+      }
     }
 
     if (specialization) {
-      query.specializations = { $in: [specialization] };
+      // query.specializations = { $in: [specialization] };
+      query.specializations = {
+        $elemMatch: { $regex: new RegExp(specialization, "i") },
+      };
     }
 
     const creators = await CreatorModel.find(query);
@@ -244,7 +251,7 @@ app.get("/search", async (req, res) => {
       error: true,
     });
   }
-})
+});
 
 // app.post("/create-todo", async (req, res) => {
 //   try {

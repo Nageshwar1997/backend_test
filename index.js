@@ -25,7 +25,6 @@ server.use(express.json());
 server.get("/all-creators", async (req, res) => {
   try {
     const creators = await CreatorModel.find();
-
     res.status(200).json({
       message: "Creators fetched successfully",
       success: true,

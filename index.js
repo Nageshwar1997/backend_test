@@ -7,9 +7,8 @@ const CreatorModel = require("./models/creatorModel");
 const app = express();
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    credentials: true,
+    origin: "https://farminsta-technical-round-assessment-frontend.vercel.app",
+    methods: ["GET", "POST", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -174,33 +173,33 @@ app.get("/creators", async (req, res) => {
   }
 });
 
-// app.get("/creator/:id", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const creator = await CreatorModel.findOne({ _id: id });
+app.get("/creator/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const creator = await CreatorModel.findOne({ _id: id });
 
-//     if (!creator) {
-//       return res.status(404).json({
-//         message: "Creator not found",
-//         success: false,
-//         error: true,
-//       });
-//     }
+    if (!creator) {
+      return res.status(404).json({
+        message: "Creator not found",
+        success: false,
+        error: true,
+      });
+    }
 
-//     res.status(200).json({
-//       message: "Creator fetched successfully",
-//       success: true,
-//       error: false,
-//       creator,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error.message || "Something went wrong",
-//       success: false,
-//       error: true,
-//     });
-//   }
-// });
+    res.status(200).json({
+      message: "Creator fetched successfully",
+      success: true,
+      error: false,
+      creator,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "Something went wrong",
+      success: false,
+      error: true,
+    });
+  }
+});
 
 // app.get("/search", async (req, res) => {
 //   try {

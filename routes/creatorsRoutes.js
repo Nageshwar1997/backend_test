@@ -4,6 +4,7 @@ const getAllCreatorsController = require("../controllers/getAllCreatorsControlle
 const getSingleCreatorController = require("../controllers/getSingleCreatorController");
 const searchCreatorController = require("../controllers/searchCreatorsController");
 const updateCreatorController = require("../controllers/updateCreatorController");
+const CreatorModel = require("../models/creatorModel");
 
 const creatorRouter = express.Router();
 

@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 
-const SocialMediaLinkSchema = new mongoose.Schema(
-  {
-    platform: { type: String, required: true },
-    url: { type: String, required: true },
-  },
-  { _id: false } // Disable the _id field for this schema
-);
-
-const CreatorSchema = new mongoose.Schema(
+const creatorSchema = new mongoose.Schema(
   {
     bannerImageUrl: {
       type: String,
@@ -33,11 +25,20 @@ const CreatorSchema = new mongoose.Schema(
       default: "N/A",
     },
     specializations: [String],
-    socialMediaLinks: { type: [SocialMediaLinkSchema] },
+    socialMediaLinks: [
+      {
+        platform: { type: String, required: true },
+        url: { type: String, required: true },
+      },
+      {
+        _id: false,
+      },
+    ],
   },
   {
     versionKey: false,
+    timestamps: true,
   }
 );
 
-module.exports = CreatorSchema;
+module.exports = creatorSchema;

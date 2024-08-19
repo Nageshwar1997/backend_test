@@ -218,7 +218,7 @@ app.get("/search", async (req, res) => {
     }
 
     if (language) {
-      query.languages = { $in: [language] };
+      query.languages = { $elemMatch: { $regex: new RegExp(language, "i") } };
     }
 
     if (education) {

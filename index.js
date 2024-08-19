@@ -1,10 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const CreatorModel = require("./models/creatorModel");
-const databaseConnection = require("./config/db");
-const PORT = process.env.PORT || 5000;
-
+const connectDB = require("./config/db");
 
 const app = express();
 app.use(
@@ -403,11 +400,10 @@ app.patch("/update_creator/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, async () => {
-  try {
-    await databaseConnection();
-    console.log(`Server is running on port ${PORT}`);
-  } catch (error) {
-    console.log(error.message || error);
-  }
+const PORT = process.env.PORT || 5000;
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log("Hello Nageshwar You are Connected to MongoDB");
+    console.log("Server is running on port", PORT);
+  });
 });

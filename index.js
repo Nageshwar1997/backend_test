@@ -1,13 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-// const cookieParser = require("cookie-parser"); // currently not installed
 require("dotenv").config();
-const databaseConnection = require("./config/db.config");
+const connectDB = require("./config/db");
+const router = require("./routes/index");
 const TodoModel = require("./models/createTodo.model");
-// const getAllCreatorsController = require("./controllers/getAllCreators.controller");
 
-const server = express();
-server.use(
+
+const app = express();
+app.use(
   cors({
     origin:
       process.env.FRONTEND_URL ||
@@ -17,11 +17,40 @@ server.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-server.use(express.json());
-// server.use(cookieParser()); // currently not installed
+app.use(express.json());
 
-// server.use("/api", router);
-server.get("/all-todos", async (req, res) => {
+app.post("/create-todo", async (req, res) => {
+  try {
+    const { name, status } = req.body;
+    if (!name) {
+      return res.status(201).json({
+        message: "Name is required",
+        success: false,
+        error: true,
+      });
+    }
+
+    const todo = new TodoModel({
+      name,
+      status,
+    });
+
+    await todo.save();
+    res.status(201).json({
+      message: "Todo created successfully",
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "Something went wrong",
+      success: false,
+      error: true,
+    });
+  }
+});
+
+app.get("/all-todos", async (req, res) => {
   try {
     const todos = await TodoModel.find();
     res.status(200).json({
@@ -39,13 +68,76 @@ server.get("/all-todos", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-
-server.listen(PORT, async () => {
+app.patch("/update-todo/:id", async (req, res) => {
   try {
-    await databaseConnection();
-    console.log(`Server running on port ${PORT}`);
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const todo = await TodoModel.findByIdAndUpdate(
+      id,
+      {
+        status,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!todo) {
+      return res.status(404).json({
+        message: "Todo not found",
+        success: false,
+        error: true,
+      });
+    }
+
+    res.status(200).json({
+      message: "Todo updated successfully",
+      success: true,
+      error: false,
+      todo,
+    });
   } catch (error) {
-    console.log(error.message || "Server is not running");
+    res.status(500).json({
+      message: error.message || "Something went wrong",
+      success: false,
+      error: true,
+    });
   }
+});
+
+app.delete("/delete-todo/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const todo = await TodoModel.findByIdAndDelete(id);
+
+    if (!todo) {
+      return res.status(404).json({
+        message: "Todo not found",
+        success: false,
+        error: true,
+      });
+    }
+
+    res.status(200).json({
+      message: "Todo deleted successfully",
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "Something went wrong",
+      success: false,
+      error: true,
+    });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log("Hello Nageshwar You are Connected to MongoDB");
+    console.log("Server is running on port", PORT);
+  });
 });
